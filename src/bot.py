@@ -1,13 +1,15 @@
-
 import discord
 import os
 import asyncio
-from discord.ext import commands
 import discord.ext
 import discord.ext.commands
 from util.logger import logging, SHH_BOT
 from util.util import is_guild_owner
 from util.exceptionhandler import on_command_errors
+from discord.ext import commands
+from dotenv import load_dotenv
+
+load_dotenv()   
 
 logger = logging.getLogger(SHH_BOT)
 
@@ -21,12 +23,9 @@ bot = commands.Bot(command_prefix="!", intents=intents, voice_client=discord.Voi
 
 async def load_extensions():
     """Loads all the cogs in the cogs folder."""
-    for filename in os.listdir("src/cogs"):
+    for filename in os.listdir("cogs"):
         if filename.endswith(".py") and filename != "__init__.py":
            await bot.load_extension(f"cogs.{filename[:-3]}")
-    for filename in os.listdir("src/personalcogs"):
-        if filename.endswith(".py") and filename != "__init__.py":
-            await bot.load_extension(f"personalcogs.{filename[:-3]}")
 
 @bot.event
 async def on_message(message):

@@ -1,6 +1,11 @@
 import logging
 import colorlog
+from pathlib import Path
 from logging.config import dictConfig
+
+
+path = Path('./logs/infos.log')
+path.touch(exist_ok=True)
 
 
 LOGGING_CONFIG = {
@@ -33,7 +38,7 @@ LOGGING_CONFIG = {
         "file": {
             "level": "DEBUG",  
             "class": "logging.FileHandler",
-            "filename": "src/logs/infos.log",
+            "filename": "logs/infos.log",
             "mode": "w",
             "formatter": "colored",
         },
