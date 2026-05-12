@@ -3,6 +3,7 @@ __pycache__/
 songs/
 .venv/
 ffmpeg-*/
+ffmpeg/
 .vscode/
 logs/
 personalcogs/

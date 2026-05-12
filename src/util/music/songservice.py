@@ -15,7 +15,7 @@ class SongService():
     def __init__(self):
         self.FFMPEG_OPTIONS: dict = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
         self.YT_DL_OPTIONS: dict = {'format': 'bestaudio[ext=m4a]/bestaudio', 'noplaylist': True, 'quiet': True, 'js_runtimes': {'node': {}}}
-        self.FFMPEG_EXE_PATH: str = str(BASE_DIR / "ffmpeg-2025" / "bin" / "ffmpeg") if os.name != "nt" else str(BASE_DIR / "ffmpeg-2025" / "bin" / "ffmpeg.exe")
+        self.FFMPEG_EXE_PATH: str = str(BASE_DIR / "ffmpeg" / "bin" / "ffmpeg") if os.name != "nt" else str(BASE_DIR / "ffmpeg" / "bin" / "ffmpeg.exe")
         self.song_source: FFmpegPCMAudio = None
 
     def get_song_source(self) -> FFmpegPCMAudio:
