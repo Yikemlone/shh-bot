@@ -1,7 +1,10 @@
 import logging
 import colorlog
+from pathlib import Path
 from logging.config import dictConfig
 
+LOG_DIR = Path(__file__).resolve().parent.parent / "logs"
+LOG_DIR.mkdir(exist_ok=True)
 
 LOGGING_CONFIG = {
     "version": 1,
@@ -33,7 +36,7 @@ LOGGING_CONFIG = {
         "file": {
             "level": "DEBUG",  
             "class": "logging.FileHandler",
-            "filename": "src/logs/infos.log",
+            "filename": str(LOG_DIR / "infos.log"),
             "mode": "w",
             "formatter": "colored",
         },
