@@ -142,6 +142,9 @@ class Music(commands.Cog):
             song_queue = self.queue_manager.get_song_queue()
             song_details = await self.song_service.get_song_details(song_name)
 
+            if song_details is None:
+                return f"{interaction.user.mention} couldn't find song details for that query."
+
             if self.voice_manager.is_playing():
                 self.queue_manager.add_to_queue(song_details)
                 return f"{interaction.user.mention} the bot is already playing a song. Added {song_queue[-1]["URL"]} to queue."
