@@ -1,17 +1,18 @@
 import asyncio
 import random
 import os
+from pathlib import Path
 from discord import app_commands, Interaction
 from discord.ext import commands
-from util.util import user_has_role
-from util.logger import logging, SHH_BOT
+from core.permissions import user_has_role
+from core.logger import logging, SHH_BOT
 
 logger = logging.getLogger(SHH_BOT)
 
 class BasicCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.resource_path = "src\\resources"
+        self.resource_path = str(Path(__file__).resolve().parent.parent / "resources")
         self.spam_file_name = "beemovie.txt"
         self._8_ball_file = "8ball-response.txt"
         self.text_files_folder = "text-files"

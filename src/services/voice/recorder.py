@@ -7,12 +7,12 @@ from pathlib import Path
 from datetime import datetime
 import discord
 from discord.ext.voice_recv import AudioSink, VoiceData
-from util.logger import logging, SHH_BOT
+from core.logger import logging, SHH_BOT
 from faster_whisper import WhisperModel
 
 logger = logging.getLogger(SHH_BOT)
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 CHANNELS = 2
 SAMPLE_WIDTH = 2
@@ -89,7 +89,7 @@ class TranscriptionService:
 
     def __init__(self):
         self._model = WhisperModel("base", device="cpu", compute_type="int8")
-        self._recordings_dir = BASE_DIR / "recordings"
+        self._recordings_dir = BASE_DIR.parent / "recordings"
         self._recordings_dir.mkdir(exist_ok=True)
         self._recording = False
         self._sink: SSRCWaveSink | None = None

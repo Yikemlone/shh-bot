@@ -2,8 +2,8 @@ from discord import Interaction
 import os
 from discord import app_commands
 from discord.ext import commands
-from util.util import is_guild_owner
-from util.logger import logging, SHH_BOT
+from core.permissions import is_guild_owner
+from core.logger import logging, SHH_BOT
 
 logger = logging.getLogger(SHH_BOT)
 

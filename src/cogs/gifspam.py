@@ -1,9 +1,9 @@
 import random
 from discord import app_commands, Interaction
 from discord.ext import commands
-from util.apiconnection.giphyconnection import GiphyConnection
-from util.util import user_has_role, is_moderator
-from util.logger import logging, SHH_BOT
+from services.api.giphy import GiphyConnection
+from core.permissions import user_has_role, is_moderator
+from core.logger import logging, SHH_BOT
 
 logger = logging.getLogger(SHH_BOT)
 

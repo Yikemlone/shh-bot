@@ -4,9 +4,9 @@ import asyncio
 from pathlib import Path
 from dotenv import load_dotenv
 from discord.ext import commands
-from util.logger import logging, SHH_BOT
-from util.util import is_guild_owner
-from util.exceptionhandler import on_command_errors
+from core.logger import logging, SHH_BOT
+from core.permissions import is_guild_owner
+from core.exceptions import on_command_errors
 
 BASE_DIR = Path(__file__).resolve().parent
 

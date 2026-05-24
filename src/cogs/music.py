@@ -4,12 +4,12 @@ import yt_dlp as youtube_dl
 from discord import app_commands, Interaction, VoiceClient, Embed, Color, File, FFmpegPCMAudio
 from discord import ClientException
 from discord.ext import commands
-from util.apiconnection.youtubeconnection import YouTubeConnection
-from util.apiconnection.spotifyconnection import SpotifyConnection 
-from util.logger import logging, SHH_BOT
-from util.music.queuemanagerservice import QueueManagerService
-from util.voiceclientmanagerservice import VoiceClientManagerService
-from util.music.songservice import SongService
+from services.api.youtube import YouTubeConnection
+from services.api.spotify import SpotifyConnection 
+from core.logger import logging, SHH_BOT
+from services.music.queue import QueueManagerService
+from services.voice.clientmanager import VoiceClientManagerService
+from services.music.song import SongService
 
 logger = logging.getLogger(SHH_BOT)
 

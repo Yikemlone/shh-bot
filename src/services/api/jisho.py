@@ -1,7 +1,7 @@
 import aiohttp
-from util.apiconnection.apiconnection import APIConnection
+from services.api.base import APIConnection
 from urllib import parse
-from util.logger import logging, SHH_BOT
+from core.logger import logging, SHH_BOT
 
 logger = logging.getLogger(SHH_BOT)
 
@@ -11,7 +11,7 @@ class JapaneseConnection(APIConnection):
     @staticmethod
     async def get_data(word: str):
         try:
-            data = parse.quote(data)
+            data = parse.quote(word)
             logger.info(f"Getting tranlation for {word}")
             URL = f"https://jisho.org/api/v1/search/words?keyword={word}"
 

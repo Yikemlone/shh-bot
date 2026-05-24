@@ -2,9 +2,9 @@ import os
 from pathlib import Path
 import yt_dlp as youtube_dl
 from discord import FFmpegPCMAudio
-from util.apiconnection.spotifyconnection import SpotifyConnection
-from util.apiconnection.youtubeconnection import YouTubeConnection
-from util.logger import logging, SHH_BOT
+from services.api.spotify import SpotifyConnection
+from services.api.youtube import YouTubeConnection
+from core.logger import logging, SHH_BOT
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 logger = logging.getLogger(SHH_BOT)
@@ -15,7 +15,7 @@ class SongService():
     def __init__(self):
         self.FFMPEG_OPTIONS: dict = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
         self.YT_DL_OPTIONS: dict = {'format': 'bestaudio[ext=m4a]/bestaudio', 'noplaylist': True, 'quiet': True, 'js_runtimes': {'node': {}}}
-        self.FFMPEG_EXE_PATH: str = str(BASE_DIR / "ffmpeg" / "bin" / "ffmpeg") if os.name != "nt" else str(BASE_DIR / "ffmpeg" / "bin" / "ffmpeg.exe")
+        self.FFMPEG_EXE_PATH: str = "ffmpeg"
         self.song_source: FFmpegPCMAudio = None
 
     def get_song_source(self) -> FFmpegPCMAudio:

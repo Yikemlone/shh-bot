@@ -7,7 +7,7 @@ from discord.app_commands import (AppCommandError, CommandInvokeError, Transform
                                   CommandSignatureMismatch, CommandNotFound, 
                                   MissingApplicationID, CommandSyncFailure)
 
-from util.logger import logging, SHH_BOT 
+from core.logger import logging, SHH_BOT
 
 logger = logging.getLogger(SHH_BOT)
 

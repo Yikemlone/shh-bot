@@ -5,8 +5,8 @@ import urllib.parse
 import aiohttp
 import dotenv
 from pathlib import Path
-from util.apiconnection.apiconnection import APIConnection
-from util.logger import logging, SHH_BOT
+from services.api.base import APIConnection
+from core.logger import logging, SHH_BOT
 
 logger = logging.getLogger(SHH_BOT)
 

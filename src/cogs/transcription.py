@@ -3,8 +3,8 @@ import discord
 from discord import app_commands, Interaction
 from discord.ext import commands
 from discord.ext.voice_recv import VoiceRecvClient
-from util.transcriptionservice import TranscriptionService
-from util.logger import logging, SHH_BOT
+from services.voice.recorder import TranscriptionService
+from core.logger import logging, SHH_BOT
 
 logger = logging.getLogger(SHH_BOT)
 

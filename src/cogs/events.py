@@ -1,6 +1,6 @@
 from discord.ext import commands
 from discord import Message, Interaction, Member, utils
-from util.logger import logging, SHH_BOT
+from core.logger import logging, SHH_BOT
 
 logger = logging.getLogger(SHH_BOT)
 

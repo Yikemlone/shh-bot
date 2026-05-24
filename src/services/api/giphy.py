@@ -1,9 +1,9 @@
 import os
 import aiohttp
 import urllib.parse
-from util.apiconnection.apiconnection import APIConnection
+from services.api.base import APIConnection
 from urllib import parse
-from util.logger import logging, SHH_BOT
+from core.logger import logging, SHH_BOT
 
 logger = logging.getLogger(SHH_BOT)
 

@@ -1,8 +1,8 @@
 import os 
 from googleapiclient.discovery import build
 from urllib import parse
-from util.apiconnection.apiconnection import APIConnection
-from util.logger import logging, SHH_BOT
+from services.api.base import APIConnection
+from core.logger import logging, SHH_BOT
 
 logger = logging.getLogger(SHH_BOT)
 
