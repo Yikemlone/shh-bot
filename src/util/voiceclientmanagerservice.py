@@ -1,5 +1,6 @@
 from typing import Callable
 from discord import AudioSource, VoiceClient, Interaction, VoiceChannel
+from discord.ext.voice_recv import VoiceRecvClient
 from util.logger import logging, SHH_BOT
 
 logger = logging.getLogger(SHH_BOT)
@@ -23,7 +24,8 @@ class VoiceClientManagerService():
         self.voice_client.stop()
         self.voice_client = await self.voice_client.disconnect() 
         self.channel = interaction.user.voice.channel
-        self.voice_client = await self.channel.connect()
+        self.voice_client = await self.channel.connect(cls=VoiceRecvClient)
+        self.voice_client.set_davey(True)
 
     def stop(self) -> None:
         """Stops the voice client."""
@@ -55,6 +57,18 @@ class VoiceClientManagerService():
         """Resumes the voice client."""
         self.voice_client.resume()
 
+    def start_recording(self, sink, *, after=None) -> None:
+        """Starts recording audio from the voice channel."""
+        self.voice_client.listen(sink, after=after)
+
+    def stop_recording(self) -> None:
+        """Stops recording and triggers the callback."""
+        self.voice_client.stop_listening()
+
+    def is_recording(self) -> bool:
+        """Returns whether the voice client is recording."""
+        return self.voice_client.is_listening()
+
     def play(self, song : AudioSource, after : Callable[[], None] = None) -> None:
         """Plays the song in the voice client."""
         self.voice_client.play(song, after=after)
@@ -70,7 +84,8 @@ class VoiceClientManagerService():
             if self.channel is None:
                 logger.info(f"Joining VC: {user_channel_name}")
                 self.channel = interaction.user.voice.channel
-                self.voice_client = await self.channel.connect()
+                self.voice_client = await self.channel.connect(cls=VoiceRecvClient)
+                self.voice_client.set_davey(True)
             elif user_channel_name != str(self.channel):
                 logger.info(f"Moving to join VC: {user_channel_name}")
                 await self.move_to_channel(interaction)

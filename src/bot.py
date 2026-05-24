@@ -19,7 +19,7 @@ intents = discord.Intents.all()
 intents.message_content = True
 
 # Define the bot
-bot = commands.Bot(command_prefix="!", intents=intents, voice_client=discord.VoiceClient)
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 
 async def load_extensions():

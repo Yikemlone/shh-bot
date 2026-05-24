@@ -49,6 +49,7 @@ LOGGING_CONFIG = {
             "propagate": False,
         },
         "discord.http": {"handlers": ["console"], "level": "INFO", "propagate": False},
+        "discord.ext.voice_recv.opus": {"handlers": ["console2", "file"], "level": "ERROR", "propagate": False},
     },
 }
 
