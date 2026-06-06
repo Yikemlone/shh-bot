@@ -1,4 +1,5 @@
 import asyncio
+import os
 import random
 import time
 import wave
@@ -9,6 +10,8 @@ import discord
 from discord.ext.voice_recv import AudioSink, VoiceData
 from core.logger import logging, SHH_BOT
 from faster_whisper import WhisperModel
+from services.taskstore import TaskStore
+from services.api.llm import LLMClient
 
 logger = logging.getLogger(SHH_BOT)
 
@@ -167,6 +170,34 @@ class TranscriptionService:
         self._loop: asyncio.AbstractEventLoop | None = None
         self._text_channel: discord.TextChannel | None = None
         self._keep_wav = False
+        self._task_store = TaskStore()
+        self._llm: LLMClient | None = None
+        self._init_llm()
+
+    def _init_llm(self):
+        provider = os.getenv("LLM_PROVIDER", "auto")
+
+        if provider == "ollama" or provider == "auto":
+            try:
+                from services.api.ollama import OllamaClient
+                self._llm = OllamaClient()
+                logger.info(f"Using Ollama ({self._llm._model})")
+                return
+            except Exception as e:
+                logger.warning(f"Ollama not available: {e}")
+
+        if provider == "gemini" or provider == "auto":
+            gemini_key = os.getenv("GEMINI_API_KEY")
+            if gemini_key:
+                try:
+                    from services.api.gemini import GeminiClient
+                    self._llm = GeminiClient()
+                    logger.info("Using Gemini")
+                    return
+                except Exception as e:
+                    logger.warning(f"Gemini not available: {e}")
+
+        logger.info("No LLM provider available — task extraction disabled")
 
     @property
     def is_recording(self):
@@ -322,9 +353,92 @@ class TranscriptionService:
             else:
                 logger.info(f"Preserved local file: {upload_path}")
 
+        await self._extract_and_store_tasks(results, thread)
         logger.info(f"Recording finished: {thread_name}")
         self._sink = None
         self._voice_client = None
+
+    async def _extract_and_store_tasks(
+        self,
+        results: list[tuple[discord.User | None, str | None, Path, Path | None, Path | None]],
+        thread: discord.Thread,
+    ):
+        llm: LLMClient | None = getattr(self, "_llm", None)
+        store: TaskStore | None = getattr(self, "_task_store", None)
+        if llm is None:
+            logger.info("No LLM client available — skipping task extraction")
+            return
+        if store is None:
+            logger.info("No task store available — skipping task extraction")
+            return
+
+        transcripts = []
+        for user, transcript, *_ in results:
+            if transcript:
+                name = f"<@{user.id}>" if user else "someone"
+                transcripts.append(f"{name}: {transcript}")
+
+        if not transcripts:
+            logger.info("No transcripts found — skipping task extraction")
+            return
+
+        combined = "\n".join(transcripts)
+        logger.info(f"Extracting tasks from {len(transcripts)} speaker(s) ({len(combined)} chars)")
+        tasks = await llm.extract_tasks(combined)
+        logger.info(f"LLM returned {len(tasks)} task(s)")
+
+        if not tasks:
+            try:
+                await thread.send("No actionable tasks were extracted from this recording.")
+            except Exception as e:
+                logger.warning(f"Failed to send task extraction result to thread: {e}")
+            return
+
+        saved = []
+        for task in tasks:
+            try:
+                t = await store.create(
+                    title=task.title,
+                    description=task.description,
+                    priority=task.priority,
+                    labels=task.labels,
+                    epic=task.epic,
+                    subtasks=task.subtasks,
+                    due_date=task.due_date,
+                )
+                saved.append(t)
+            except Exception as e:
+                logger.warning(f"Failed to save task '{task.title}' to store: {e}")
+
+        logger.info(f"Saved {len(saved)}/{len(tasks)} tasks to store")
+        board_url = os.getenv("BOARD_URL", "")
+        task_list = "\n".join(
+            f"  • **{t.title}** (`{t.id}`) — {t.priority}"
+            for t in saved
+        )
+        msg = (
+            f"**{len(saved)} tasks extracted**\n"
+            f"{task_list}\n"
+        )
+        if board_url:
+            msg += f"\nView the board: {board_url}"
+
+        try:
+            await thread.send(msg)
+        except Exception as e:
+            logger.warning(f"Failed to send task extraction result to thread: {e}")
+
+        if saved:
+            await self._notify_web_server()
+
+    async def _notify_web_server(self):
+        app_url = os.getenv("APP_URL", "http://localhost:8080")
+        try:
+            import httpx
+            async with httpx.AsyncClient() as client:
+                await client.post(f"{app_url}/api/refresh", timeout=2.0)
+        except Exception as e:
+            logger.debug(f"Web server notification skipped: {e}")
 
     async def _enhance_audio(self, wav_path: Path) -> Path | None:
         out_path = wav_path.with_name(wav_path.stem + "_enhanced.wav")

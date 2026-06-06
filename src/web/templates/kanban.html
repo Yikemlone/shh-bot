@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kanban Board</title>
+  <link rel="stylesheet" href="/static/kanban.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Task Board</h1>
+      <div id="auth-area">
+        <div id="user-info" class="hidden">
+          <span id="user-name"></span>
+          <button id="logout-btn">Logout</button>
+        </div>
+        <div id="login-area">
+          <a id="login-link" href="/auth/discord">
+            <button id="login-btn">Login with Discord</button>
+          </a>
+        </div>
+      </div>
+    </header>
+    <button id="add-task-btn" class="hidden">+ New Task</button>
+    <div id="board">
+      <div class="column" data-status="todo">
+        <div class="column-header">To Do</div>
+        <div class="column-body" id="col-todo"></div>
+      </div>
+      <div class="column" data-status="in_progress">
+        <div class="column-header">In Progress</div>
+        <div class="column-body" id="col-in_progress"></div>
+      </div>
+      <div class="column" data-status="done">
+        <div class="column-header">Done</div>
+        <div class="column-body" id="col-done"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="task-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <h2 id="modal-title">Task</h2>
+      <div class="modal-body">
+        <label>Title <input type="text" id="edit-title"></label>
+        <label>Description <textarea id="edit-description"></textarea></label>
+        <label>Priority
+          <select id="edit-priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="critical">Critical</option>
+          </select>
+        </label>
+        <label>Status
+          <select id="edit-status">
+            <option value="todo">To Do</option>
+            <option value="in_progress">In Progress</option>
+            <option value="done">Done</option>
+          </select>
+        </label>
+        <label>Labels <input type="text" id="edit-labels" placeholder="comma,separated"></label>
+        <label>Epic <input type="text" id="edit-epic" placeholder="epic name"></label>
+        <label>Due Date <input type="date" id="edit-due_date"></label>
+      </div>
+      <div class="modal-footer">
+        <button id="delete-task-btn" class="danger">Delete</button>
+        <button id="save-task-btn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="hidden"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+  <script src="/static/kanban.js"></script>
+</body>
+</html>

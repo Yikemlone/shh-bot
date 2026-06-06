@@ -1,0 +1,80 @@
+{
+  "553f5ed48142": {
+    "id": "553f5ed48142",
+    "title": "Fix Login Bug",
+    "description": "Address an issue with the login functionality on the frontend.",
+    "status": "todo",
+    "priority": "high",
+    "labels": [
+      "dev",
+      "frontend"
+    ],
+    "epic": "",
+    "subtasks": [],
+    "due_date": "2023-10-06",
+    "created_at": "2026-06-03T23:39:06.785385+00:00",
+    "created_by": ""
+  },
+  "c618a9f7d432": {
+    "id": "c618a9f7d432",
+    "title": "Add Dark Mode Toggle",
+    "description": "Implement a dark mode toggle feature for the frontend.",
+    "status": "todo",
+    "priority": "medium",
+    "labels": [
+      "dev",
+      "frontend"
+    ],
+    "epic": "",
+    "subtasks": [],
+    "due_date": "",
+    "created_at": "2026-06-03T23:39:06.787341+00:00",
+    "created_by": ""
+  },
+  "5155f3794e13": {
+    "id": "5155f3794e13",
+    "title": "Deploy New API",
+    "description": "Release a new version of the backend API.",
+    "status": "todo",
+    "priority": "high",
+    "labels": [
+      "dev",
+      "backend"
+    ],
+    "epic": "",
+    "subtasks": [],
+    "due_date": "",
+    "created_at": "2026-06-03T23:39:06.787523+00:00",
+    "created_by": ""
+  },
+  "41d579de80d7": {
+    "id": "41d579de80d7",
+    "title": "Make a robot",
+    "description": "Create a robot with the same taste preferences as the original.",
+    "status": "todo",
+    "priority": "medium",
+    "labels": [
+      "dev"
+    ],
+    "epic": "",
+    "subtasks": [],
+    "due_date": "",
+    "created_at": "2026-06-03T23:44:39.186712+00:00",
+    "created_by": ""
+  },
+  "b71bd6e2573f": {
+    "id": "b71bd6e2573f",
+    "title": "Create a giant frog",
+    "description": "Testing request for creating a giant frog.",
+    "status": "todo",
+    "priority": "low",
+    "labels": [
+      "dev"
+    ],
+    "epic": "",
+    "subtasks": [],
+    "due_date": "",
+    "created_at": "2026-06-06T22:19:38.302170+00:00",
+    "created_by": ""
+  }
+}

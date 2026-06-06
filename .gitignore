@@ -8,3 +8,5 @@ ffmpeg/
 logs/
 personalcogs/
 recordings/
+venv-test-264/
+bin/

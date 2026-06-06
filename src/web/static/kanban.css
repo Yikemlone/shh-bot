@@ -1,0 +1,89 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #1e1e2e; color: #cdd6f4; min-height: 100vh;
+}
+#app { max-width: 1280px; margin: 0 auto; padding: 16px; }
+header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px;
+}
+header h1 { font-size: 1.5rem; }
+#auth-area { display: flex; align-items: center; gap: 8px; }
+.hidden { display: none !important; }
+#login-btn, #logout-btn, #add-task-btn {
+  background: #5865f2; color: #fff; border: none; padding: 8px 16px;
+  border-radius: 6px; cursor: pointer; font-size: 0.9rem;
+}
+#logout-btn { background: #45475a; }
+#login-btn:hover, #add-task-btn:hover { background: #4752c4; }
+#add-task-btn { margin-bottom: 16px; }
+#user-info { display: flex; align-items: center; gap: 8px; }
+#board { display: flex; gap: 16px; }
+.column {
+  flex: 1; background: #181825; border-radius: 8px; padding: 12px;
+  min-height: 300px;
+}
+.column-header {
+  font-weight: 600; font-size: 1rem; margin-bottom: 12px;
+  padding-bottom: 8px; border-bottom: 2px solid #313244;
+}
+.column-body { min-height: 200px; }
+.card {
+  background: #313244; border-radius: 6px; padding: 10px;
+  margin-bottom: 8px; cursor: grab; position: relative;
+  transition: box-shadow 0.15s;
+}
+.card:active { cursor: grabbing; }
+.card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+.card-title { font-weight: 500; margin-bottom: 4px; }
+.card-meta { font-size: 0.75rem; color: #a6adc8; display: flex; gap: 4px; flex-wrap: wrap; }
+.badge {
+  display: inline-block; padding: 1px 6px; border-radius: 4px;
+  font-size: 0.7rem; font-weight: 600;
+}
+.badge-critical { background: #f38ba8; color: #1e1e2e; }
+.badge-high { background: #fab387; color: #1e1e2e; }
+.badge-medium { background: #f9e2af; color: #1e1e2e; }
+.badge-low { background: #a6e3a1; color: #1e1e2e; }
+.badge-epic { background: #89b4fa; color: #1e1e2e; }
+.badge-label { background: #45475a; color: #cdd6f4; }
+.card-id { font-size: 0.65rem; color: #585b70; position: absolute; top: 6px; right: 8px; }
+.sortable-ghost { opacity: 0.4; }
+.sortable-chosen { box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.modal { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; }
+.modal-backdrop {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.6);
+}
+.modal-content {
+  position: relative; background: #1e1e2e; border: 1px solid #45475a;
+  border-radius: 12px; padding: 24px; width: 480px; max-width: 90vw;
+  max-height: 90vh; overflow-y: auto;
+}
+.modal-close {
+  position: absolute; top: 12px; right: 16px; background: none;
+  border: none; color: #a6adc8; font-size: 1.5rem; cursor: pointer;
+}
+.modal-body label {
+  display: block; margin-bottom: 12px; font-size: 0.85rem; color: #a6adc8;
+}
+.modal-body input, .modal-body textarea, .modal-body select {
+  width: 100%; margin-top: 4px; padding: 8px; border-radius: 6px;
+  border: 1px solid #45475a; background: #313244; color: #cdd6f4;
+  font-size: 0.9rem;
+}
+.modal-body textarea { min-height: 80px; resize: vertical; }
+.modal-footer { display: flex; justify-content: space-between; margin-top: 16px; }
+.modal-footer button {
+  padding: 8px 20px; border: none; border-radius: 6px; cursor: pointer;
+  font-size: 0.9rem;
+}
+#save-task-btn { background: #5865f2; color: #fff; }
+#save-task-btn:hover { background: #4752c4; }
+#delete-task-btn { background: transparent; color: #f38ba8; border: 1px solid #f38ba8; }
+#delete-task-btn:hover { background: #f38ba8; color: #1e1e2e; }
+#toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: #313244; color: #cdd6f4; padding: 10px 20px; border-radius: 8px;
+  font-size: 0.85rem; z-index: 200; border: 1px solid #45475a;
+}

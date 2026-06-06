@@ -244,13 +244,14 @@ class TestTranscriptionService:
         await service._process(None, [1], {1: wav})
         tc.send.assert_called_once()
         mock_msg.create_thread.assert_awaited_once()
-        mock_thread.send.assert_awaited_once()
+        assert mock_thread.send.await_count >= 1
         # WAV should NOT exist after successful upload (cleaned up)
         assert not wav.exists()
 
     @pytest.mark.asyncio
     async def test_process_preserves_file_on_upload_failure(self, service, tmp_path, mocker):
         mocker.patch.object(service, "_enhance_audio", return_value=None)
+        mocker.patch.object(service, "_extract_and_store_tasks", return_value=None)
         wav = tmp_path / "ssrc_1_test.wav"
         make_wav(wav, 100)
         mp3 = tmp_path / "ssrc_1_test.mp3"

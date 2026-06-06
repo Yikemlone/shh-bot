@@ -45,9 +45,11 @@ async def on_ready():
     # bot.tree.on_error = on_command_errors
 
     try:
-        synced = await bot.tree.sync()  # Syncs slash commands globally
-        logger.info(f"Synced {len(synced)} commands.")
-
+        total = 0
+        for guild in bot.guilds:
+            synced = await bot.tree.sync(guild=guild)
+            total += len(synced)
+        logger.info(f"Synced {total} commands across {len(bot.guilds)} guilds.")
     except Exception as e:
         logger.error(f"Error syncing commands: {e}")
 
